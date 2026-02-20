@@ -1,0 +1,132 @@
+const data = {
+  name: "Chinmay Sakhare",
+  roles: ["Software Engineer", "Full Stack Developer", "Cloud Enthusiast"],
+  bio: "I build things for the web. 3+ years of writing payment systems, APIs, and microservices at AuroPay in Mumbai. Now doing my Master's at Northeastern, looking for a Summer 2026 co-op where I can ship real software with a great team.",
+  email: "sakhare.c@northeastern.edu",
+  phone: "857-421-2839",
+  location: "Boston, MA",
+  linkedin: "https://www.linkedin.com/in/chinmaysakhare/",
+  github: "https://github.com/Chinmay-Sakhare07",
+  resume: "/resume.pdf",
+
+  stats: [
+    { val: "3.5+", label: "Years Building Software", icon: "🔥" },
+    { val: "50K+", label: "Daily Txns Processed", icon: "⚡" },
+    { val: "6", label: "Certifications", icon: "🏆" },
+    { val: "40%", label: "API Throughput Gain", icon: "🚀" },
+  ],
+
+  stack: [
+    { name: ".NET", cat: "Backend" },
+    { name: "C#", cat: "Backend" },
+    { name: "Java", cat: "Backend" },
+    { name: "Python", cat: "Backend" },
+    { name: "Node.js", cat: "Backend" },
+    { name: "React", cat: "Frontend" },
+    { name: "Angular", cat: "Frontend" },
+    { name: "TypeScript", cat: "Frontend" },
+    { name: "JavaScript", cat: "Frontend" },
+    { name: "Tailwind", cat: "Frontend" },
+    { name: "HTML/CSS", cat: "Frontend" },
+    { name: "SQL Server", cat: "Data" },
+    { name: "MySQL", cat: "Data" },
+    { name: "PostgreSQL", cat: "Data" },
+    { name: "MongoDB", cat: "Data" },
+    { name: "AWS", cat: "Cloud" },
+    { name: "Azure", cat: "Cloud" },
+    { name: "Docker", cat: "Cloud" },
+    { name: "Kubernetes", cat: "Cloud" },
+    { name: "Git", cat: "Tools" },
+    { name: "Postman", cat: "Tools" },
+    { name: "VS Code", cat: "Tools" },
+    { name: "IntelliJ", cat: "Tools" },
+  ],
+
+  experience: [
+    {
+      role: "Software Engineer",
+      company: "Aurionpro Payments (AuroPay)",
+      location: "Mumbai, India",
+      period: "Dec 2021 to Aug 2025",
+      current: false,
+      desc: "Worked on the core payments platform powering real-time transactions for major Indian banks.",
+      points: [
+        "Built and scaled payment microservices in .NET Core + SQL + AWS that handled millions of daily transactions. Got API throughput up by 40%.",
+        "Designed a reconciliation system with a tri-party rule engine. Processed 50K+ transactions a day, replaced 60-80% of manual settlement work.",
+        "Built Team Access, a role-based access control system with AES-256 encryption so users only saw what they were supposed to.",
+        "Shipped BNPL and fraud detection features. Adoption went up 20%, caught 15% more bad actors.",
+        "Helped pass PCI DSS and SAR compliance audits, worked closely with product and compliance on securing 100K+ monthly cardholder transactions.",
+      ],
+    },
+    {
+      role: "Fitness Consultant",
+      company: "Marino Recreation Center, Northeastern",
+      location: "Boston, MA",
+      period: "Sep 2025 to Present",
+      current: true,
+      desc: "Because building software is only half the fun.",
+      points: [
+        "Coach 50+ daily visitors on form and technique. Supervise the gym floor, keep things running smooth.",
+      ],
+    },
+  ],
+
+  education: [
+    {
+      degree: "MS in Information Systems",
+      school: "Northeastern University",
+      location: "Boston, MA",
+      period: "Sep 2025 to Aug 2027",
+      note: "Coursework: Application Engineering, Database Design, Data Warehousing & BI, Data Science Engineering",
+    },
+    {
+      degree: "BE in Electronics Engineering",
+      school: "University of Mumbai",
+      location: "Mumbai, India",
+      period: "Graduated Jun 2021",
+      note: "Thesis: ML-based classification of neurological disorders using EEG signals, DWT feature extraction, and ANN classifiers. Hit 80% accuracy.",
+    },
+  ],
+
+  projects: [
+    {
+      title: "MediNexus",
+      sub: "Hospital Management System",
+      desc: "Full-stack hospital platform I built for my database course. 26-table normalized SQL Server backend, .NET Core APIs, React frontend. Handles patient registration, doctor scheduling, billing with insurance claims, pharmacy inventory. Deployed on Azure + Netlify.",
+      tech: [".NET Core", "React", "SQL Server", "Azure", "Tailwind"],
+      live: "https://medinexushealth.netlify.app",
+      github: "https://github.com/Chinmay-Sakhare07",
+      accent: 0,
+    },
+    {
+      title: "Cafe Vision",
+      sub: "Real-Time AI Analytics",
+      desc: "Hackathon project at MGEN 2025. Built a real-time vision pipeline using YOLOv8 and OpenCV that processes live camera feeds with sub-second inference. Tracks customer engagement and staff productivity. Judges recognized it for practical business impact.",
+      tech: ["Python", "YOLOv8", "OpenCV", "PyTorch"],
+      live: null,
+      github: "https://github.com/Chinmay-Sakhare07",
+      accent: 1,
+    },
+    {
+      title: "Neuro Classifier",
+      sub: "EEG Signal Processing (B.E. Thesis)",
+      desc: "My undergrad thesis. Built an EEG analysis system in MATLAB that detects epilepsy from brain signals. Used Savitzky-Golay filtering, Discrete Wavelet Transform for feature extraction, and ANN for classification.",
+      tech: ["MATLAB", "Machine Learning", "Signal Processing", "DWT"],
+      live: null,
+      github: null,
+      accent: 2,
+    },
+  ],
+
+  certifications: [
+    { name: "AWS Certified Cloud Practitioner", issuer: "Amazon Web Services", date: "Jan 2024", url: "https://aws.amazon.com/verification", code: "98Z8MJ1D5B1QQYCY", licenseId: "98Z8MJ1D5B1QQYCY", preview: "/certs/AWS Certified Cloud Practitioner.pdf" },
+    { name: "Enterprise Web Dev (.NET Core)", issuer: "Swabhav Techlabs", date: "Dec 2021", url: null, licenseId: null, preview: "/certs/Enterprise Web Dev (.NET Core).pdf" },
+    { name: "Introduction to Java", issuer: "Coursera / LearnQuest", date: "Jul 2021", url: "https://coursera.org/verify/EMFSF56S7J2E", licenseId: null, preview: "/certs/Introduction to Java.pdf" },
+    { name: "Programming for Everybody (Python)", issuer: "Coursera / U of Michigan", date: "Jun 2020", url: "https://coursera.org/verify/244ENWDYRM4F", licenseId: null, preview: "/certs/Programming for Everybody (Python).pdf" },
+    { name: "Python Data Structures", issuer: "Coursera / U of Michigan", date: "Jul 2020", url: "https://coursera.org/verify/C8FQUSNS4D9T", licenseId: null, preview: "/certs/Python Data Structures.pdf" },
+    { name: "Using Python to Access Web Data", issuer: "Coursera / U of Michigan", date: "Aug 2020", url: "https://coursera.org/verify/EQGHSCTACRW9", licenseId: null, preview: "/certs/Using Python to Access Web Data.pdf" },
+    { name: "Responsive Websites (HTML5 & CSS3)", issuer: "Udemy", date: "Aug 2020", url: "https://ude.my/UC-27ed60f3-990b-45db-ba28-e425badd7e25", licenseId: null, preview: "/certs/Responsive Websites (HTML5 & CSS3).pdf" },
+  ],
+};
+
+export default data;
