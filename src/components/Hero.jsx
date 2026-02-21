@@ -4,14 +4,14 @@ import useMouse from "../hooks/useMouse";
 import data from "../config/data";
 
 export default function Hero({ scrollY }) {
-  const { t } = useTheme();
+  const { t, mode } = useTheme();
   const typed = useTypingEffect(data.roles);
   const mouse = useMouse();
 
   const go = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <section style={{
+    <section id="hero" style={{
       minHeight: "100vh", display: "flex", alignItems: "center",
       padding: "120px 24px 80px", position: "relative",
     }}>
@@ -90,12 +90,11 @@ export default function Hero({ scrollY }) {
               <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#22c55e" }} />
               <span style={{ flex: 1, textAlign: "center", fontSize: 11, color: t.textMuted, fontFamily: "monospace" }}>chinmay.dev</span>
             </div>
-            <div style={{ width: "100%", height: 280, display: "flex", alignItems: "center", justifyContent: "center", background: `linear-gradient(135deg, ${t.gFrom}15, ${t.gTo}15)`, overflow: "hidden" }}>
-              {/* Replace src with your actual headshot path */}
+            <div style={{ width: "100%", height: 340, display: "flex", alignItems: "center", justifyContent: "center", background: `linear-gradient(135deg, ${t.gFrom}15, ${t.gTo}15)`, overflow: "hidden" }}>
               <img
-                src="/headshot.jpg"
+                src={mode === "dark" ? "/headshot.jpg" : "/headshot2.jpg"}
                 alt="Chinmay Sakhare"
-                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
+                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }}
                 onError={(e) => {
                   e.target.style.display = "none";
                   e.target.nextSibling.style.display = "flex";

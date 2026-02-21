@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "./context/ThemeContext";
+import useMouse from "./hooks/useMouse";
+import useCursorTrail from "./hooks/useCursorTrail";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -20,7 +22,10 @@ const KONAMI = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
 
 export default function App() {
   const { t } = useTheme();
+  const mouse = useMouse();
+  const { particles } = useCursorTrail(14, 50);
   const [scrollY, setScrollY] = useState(0);
+  const [clicking, setClicking] = useState(false);
   const [showSnake, setShowSnake] = useState(false);
   const [showMemory, setShowMemory] = useState(false);
   const [showTetris, setShowTetris] = useState(false);
@@ -28,14 +33,20 @@ export default function App() {
   const [konamiKeys, setKonamiKeys] = useState([]);
   const [konamiActive, setKonamiActive] = useState(false);
 
-  // Scroll listener
   useEffect(() => {
     const handler = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  // Konami code listener
+  useEffect(() => {
+    const down = () => setClicking(true);
+    const up = () => setClicking(false);
+    window.addEventListener("mousedown", down);
+    window.addEventListener("mouseup", up);
+    return () => { window.removeEventListener("mousedown", down); window.removeEventListener("mouseup", up); };
+  }, []);
+
   useEffect(() => {
     const handler = (e) => {
       setKonamiKeys(prev => {
@@ -51,7 +62,6 @@ export default function App() {
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
-  // Scroll progress
   const maxScroll = typeof document !== "undefined"
     ? document.documentElement.scrollHeight - window.innerHeight
     : 1;
@@ -63,7 +73,43 @@ export default function App() {
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
       transition: "background 0.4s, color 0.4s",
       position: "relative", overflow: "hidden",
+      cursor: "none",
     }}>
+
+      {/* Custom cursor - dot */}
+      <div style={{
+        position: "fixed", zIndex: 9999, pointerEvents: "none",
+        width: clicking ? 6 : 8, height: clicking ? 6 : 8,
+        borderRadius: "50%", background: t.primary,
+        left: mouse.x - (clicking ? 3 : 4),
+        top: mouse.y - (clicking ? 3 : 4),
+        transition: "width 0.15s, height 0.15s, left 0.05s, top 0.05s",
+        mixBlendMode: "difference",
+      }} />
+
+      {/* Custom cursor - ring */}
+      <div style={{
+        position: "fixed", zIndex: 9998, pointerEvents: "none",
+        width: clicking ? 28 : 36, height: clicking ? 28 : 36,
+        borderRadius: "50%", border: `1.5px solid ${t.primary}80`,
+        left: mouse.x - (clicking ? 14 : 18),
+        top: mouse.y - (clicking ? 14 : 18),
+        transition: "width 0.2s ease-out, height 0.2s ease-out, left 0.15s ease-out, top 0.15s ease-out",
+        background: clicking ? `${t.primary}10` : "transparent",
+      }} />
+
+      {/* Emoji trail particles */}
+      {particles.map((p) => (
+        <div key={p.id} style={{
+          position: "fixed", left: p.x, top: p.y,
+          fontSize: p.size, pointerEvents: "none", zIndex: 9997,
+          opacity: 0, transform: `rotate(${p.rotation}deg)`,
+          animation: "emojiFloat 0.8s ease-out forwards",
+        }}>
+          {p.emoji}
+        </div>
+      ))}
+
       {/* Scroll progress bar */}
       <div style={{
         position: "fixed", top: 0, left: 0, height: 3, zIndex: 200,
@@ -122,7 +168,7 @@ export default function App() {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           style={{
             position: "fixed", bottom: 28, right: 28, width: 46, height: 46, borderRadius: 14,
-            border: "none", cursor: "pointer",
+            border: "none", cursor: "none",
             background: `linear-gradient(135deg, ${t.gFrom}, ${t.gTo})`,
             color: "#fff", fontSize: 18, boxShadow: `0 4px 20px ${t.glow}`,
             display: "flex", alignItems: "center", justifyContent: "center",
@@ -135,32 +181,33 @@ export default function App() {
       <style>{`
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
         @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes emojiFloat {
+          0% { opacity: 0.9; transform: translateY(0) scale(1) rotate(0deg); }
+          50% { opacity: 0.6; }
+          100% { opacity: 0; transform: translateY(-40px) scale(0.3) rotate(180deg); }
+        }
         @keyframes slideInLeft { from{opacity:0;transform:translateX(-30px)} to{opacity:1;transform:translateX(0)} }
         @keyframes slideInRight { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
         @keyframes scaleIn { from{opacity:0;transform:scale(0.9)} to{opacity:1;transform:scale(1)} }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
-        *{margin:0;padding:0;box-sizing:border-box}
+        *{margin:0;padding:0;box-sizing:border-box;cursor:none !important}
         html{scroll-behavior:smooth}
+        a, button, span, input { cursor: none !important; }
         ::selection{background:${t.primary}30}
 
-        /* Responsive breakpoints */
         @media (max-width: 768px) {
-          /* Hero */
           section > div > div[style*="flex: 1 1 440px"] {
             text-align: center;
           }
           section > div > div[style*="flex: 0 0 320px"] {
             flex: 0 0 260px !important;
           }
-
-          /* Nav items hidden on mobile */
           nav > div > div > div[style*="gap: 2"] {
             display: none !important;
           }
         }
 
         @media (max-width: 640px) {
-          /* Bento grid single column */
           div[style*="gridTemplateColumns: repeat(6"] {
             grid-template-columns: 1fr !important;
           }
@@ -168,30 +215,20 @@ export default function App() {
             grid-column: span 1 !important;
             grid-row: span 1 !important;
           }
-
-          /* Tech stack 3 columns */
           div[style*="gridTemplateColumns: repeat(auto-fill, minmax(100px"] {
             grid-template-columns: repeat(3, 1fr) !important;
           }
-
-          /* Certs single column */
           div[style*="gridTemplateColumns: repeat(auto-fill, minmax(300px"] {
             grid-template-columns: 1fr !important;
           }
-
-          /* Hero code editor smaller */
           section > div > div[style*="flex: 0 0 320px"],
           section > div > div[style*="flex: 0 0 260px"] {
             flex: 0 0 100% !important;
             max-width: 300px;
           }
-
-          /* Section padding */
           section[id] {
             padding: 60px 16px !important;
           }
-
-          /* Hero text smaller */
           h1 {
             font-size: 36px !important;
           }
