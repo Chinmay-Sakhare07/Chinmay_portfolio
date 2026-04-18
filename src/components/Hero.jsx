@@ -1,10 +1,13 @@
+import { useMemo } from "react";
 import { useTheme } from "../context/ThemeContext";
 import useTypingEffect from "../hooks/useTypingEffect";
 import data from "../config/data";
 
 export default function Hero({ scrollY, onOpenTerminal }) {
   const { t, mode } = useTheme();
-  const typed = useTypingEffect(data.roles);
+  // Memoize so the array reference is stable — prevents typing hook from stalling
+  const roles = useMemo(() => data.roles, []);
+  const typed = useTypingEffect(roles);
 
   const go = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 

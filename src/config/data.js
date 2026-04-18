@@ -1,6 +1,6 @@
 const data = {
   name: "Chinmay Sakhare",
-  roles: ["Cloud Native - Software Engineer", "AI Enthusiast", "Full Stack Developer", "Data & Analytics Engineer"],
+  roles: ["Cloud Native Software Engineer", "AI Enthusiast", "Full Stack Developer", "Data & Analytics Engineer"],
   bio: "I build things for the web. Almost 4 years of writing payment systems, APIs, and microservices at AuroPay. Now doing my Master's at Northeastern, looking for a Summer/Fall 2026 co-op where I can ship real software with a great team.",
 
   // ─── ABOUT ───────────────────────────────────────────────────────────────────

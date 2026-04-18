@@ -2,6 +2,7 @@ import { useTheme } from "../context/ThemeContext";
 import Section from "./common/Section";
 import SectionTitle from "./common/SectionTitle";
 import Glass from "./common/Glass";
+import useSectionReveal from "../hooks/useSectionReveal";
 import data from "../config/data";
 
 function ProjectLinks({ p, t }) {
@@ -62,6 +63,27 @@ function DateTag({ date, t }) {
   );
 }
 
+function RevealCard({ children, index, direction = "up" }) {
+  const [ref, visible] = useSectionReveal(0.1);
+  const transforms = {
+    up:    visible ? "translateY(0)"   : "translateY(30px)",
+    left:  visible ? "translateX(0)"  : "translateX(-30px)",
+    right: visible ? "translateX(0)"  : "translateX(30px)",
+  };
+  return (
+    <div
+      ref={ref}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: transforms[direction],
+        transition: `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
 export default function Projects() {
   const { t } = useTheme();
   const accents = [t.gFrom, t.gTo, t.primary];
@@ -81,7 +103,8 @@ export default function Projects() {
         marginBottom: 20,
       }}>
         {featured.map((p, i) => (
-          <Glass key={p.title} style={{ position: "relative", overflow: "hidden" }}>
+          <RevealCard key={p.title} index={i} direction={i === 0 ? "left" : "right"}>
+            <Glass style={{ position: "relative", overflow: "hidden", height: "100%" }}>
             {/* Accent bar */}
             <div style={{
               position: "absolute", top: 0, left: 0, right: 0, height: 3,
@@ -98,6 +121,7 @@ export default function Projects() {
               <ProjectLinks p={p} t={t} />
             </div>
           </Glass>
+          </RevealCard>
         ))}
       </div>
 
@@ -107,23 +131,25 @@ export default function Projects() {
         gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
         gap: 16,
       }}>
-        {rest.map((p) => (
-          <Glass key={p.title} style={{ position: "relative", overflow: "hidden" }}>
-            <div style={{
-              position: "absolute", top: 0, left: 0, right: 0, height: 3,
-              background: `linear-gradient(90deg, ${accents[p.accent % 3]}, ${accents[(p.accent + 1) % 3]})`,
-            }} />
-            <div style={{ paddingTop: 10 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 4 }}>
-                <h3 style={{ fontSize: 18, fontWeight: 800, color: t.text }}>{p.title}</h3>
-                <DateTag date={p.date} t={t} />
+        {rest.map((p, i) => (
+          <RevealCard key={p.title} index={i} direction="up">
+            <Glass style={{ position: "relative", overflow: "hidden", height: "100%" }}>
+              <div style={{
+                position: "absolute", top: 0, left: 0, right: 0, height: 3,
+                background: `linear-gradient(90deg, ${accents[p.accent % 3]}, ${accents[(p.accent + 1) % 3]})`,
+              }} />
+              <div style={{ paddingTop: 10 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 4 }}>
+                  <h3 style={{ fontSize: 18, fontWeight: 800, color: t.text }}>{p.title}</h3>
+                  <DateTag date={p.date} t={t} />
+                </div>
+                <p style={{ fontSize: 12, color: t.primary, fontWeight: 600, marginBottom: 8 }}>{p.sub}</p>
+                <p style={{ color: t.textSec, fontSize: 13, lineHeight: 1.7 }}>{p.desc}</p>
+                <TechTags tech={p.tech} t={t} />
+                <ProjectLinks p={p} t={t} />
               </div>
-              <p style={{ fontSize: 12, color: t.primary, fontWeight: 600, marginBottom: 8 }}>{p.sub}</p>
-              <p style={{ color: t.textSec, fontSize: 13, lineHeight: 1.7 }}>{p.desc}</p>
-              <TechTags tech={p.tech} t={t} />
-              <ProjectLinks p={p} t={t} />
-            </div>
-          </Glass>
+            </Glass>
+          </RevealCard>
         ))}
       </div>
     </Section>
