@@ -31,7 +31,7 @@ const KONAMI = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
 
 // Spawn a short emoji confetti burst at a random position near center-top of section
 function spawnConfetti(emojis) {
-  const count = 50;
+  const count = 16;
   for (let i = 0; i < count; i++) {
     const el = document.createElement("div");
     el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
