@@ -1,127 +1,131 @@
-import { useState } from "react";
 import { useTheme } from "../context/ThemeContext";
 import Section from "./common/Section";
 import SectionTitle from "./common/SectionTitle";
 import Glass from "./common/Glass";
 import data from "../config/data";
 
+function ProjectLinks({ p, t }) {
+  return (
+    <div style={{ display: "flex", gap: 14, marginTop: 16, flexWrap: "wrap" }}>
+      {p.live && (
+        <a
+          href={p.live}
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            color: t.primary, fontSize: 13, fontWeight: 600,
+            textDecoration: "none", borderBottom: `1px solid ${t.primary}40`,
+          }}
+        >
+          Live Demo ↗
+        </a>
+      )}
+      {p.github && (
+        <a
+          href={p.github}
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            color: t.textSec, fontSize: 13, fontWeight: 500,
+            textDecoration: "none", borderBottom: `1px dashed ${t.textMuted}40`,
+          }}
+        >
+          Source Code ↗
+        </a>
+      )}
+    </div>
+  );
+}
+
+function TechTags({ tech, t }) {
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 12 }}>
+      {tech.map(tc => (
+        <span key={tc} style={{
+          padding: "4px 12px", borderRadius: 6, fontSize: 11,
+          fontWeight: 600, background: t.primaryLight, color: t.primary,
+        }}>{tc}</span>
+      ))}
+    </div>
+  );
+}
+
+function DateTag({ date, t }) {
+  return (
+    <span style={{
+      fontSize: 11, fontWeight: 600, color: t.textMuted,
+      background: t.primaryLight, padding: "3px 10px",
+      borderRadius: 20, whiteSpace: "nowrap",
+    }}>
+      {date}
+    </span>
+  );
+}
+
 export default function Projects() {
   const { t } = useTheme();
   const accents = [t.gFrom, t.gTo, t.primary];
-  const [showNotice, setShowNotice] = useState(false);
-  const [noticeUrl, setNoticeUrl] = useState("");
 
-  const handleLiveDemo = (url, isMediNexus) => {
-    if (isMediNexus) {
-      setNoticeUrl(url);
-      setShowNotice(true);
-    } else {
-      window.open(url, "_blank");
-    }
-  };
+  const featured = data.projects.filter(p => p.featured);
+  const rest = data.projects.filter(p => !p.featured);
 
   return (
     <Section id="projects">
       <SectionTitle sub="What I've built">Projects</SectionTitle>
-      <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
-        {data.projects.map((p, i) => (
-          <Glass key={i} style={{ position: "relative", overflow: "hidden" }}>
+
+      {/* Featured row — 2 large side-by-side cards */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+        gap: 20,
+        marginBottom: 20,
+      }}>
+        {featured.map((p, i) => (
+          <Glass key={p.title} style={{ position: "relative", overflow: "hidden" }}>
+            {/* Accent bar */}
             <div style={{
-              position: "absolute", top: 0, left: 0, right: 0, height: 4,
+              position: "absolute", top: 0, left: 0, right: 0, height: 3,
               background: `linear-gradient(90deg, ${accents[p.accent % 3]}, ${accents[(p.accent + 1) % 3]})`,
             }} />
-            <div style={{ paddingTop: 8 }}>
-              <h3 style={{ fontSize: 24, fontWeight: 800, color: t.text, marginBottom: 2 }}>{p.title}</h3>
-              <p style={{ fontSize: 14, color: t.primary, fontWeight: 600, marginBottom: 12 }}>{p.sub}</p>
-              <p style={{ color: t.textSec, fontSize: 15, lineHeight: 1.7, marginBottom: 16 }}>{p.desc}</p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 14 }}>
-                {p.tech.map(tc => (
-                  <span key={tc} style={{
-                    padding: "5px 14px", borderRadius: 8, fontSize: 12,
-                    fontWeight: 600, background: t.primaryLight, color: t.primary,
-                  }}>{tc}</span>
-                ))}
+            <div style={{ paddingTop: 10 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 4 }}>
+                <h3 style={{ fontSize: 22, fontWeight: 800, color: t.text }}>{p.title}</h3>
+                <DateTag date={p.date} t={t} />
               </div>
-              <div style={{ display: "flex", gap: 16 }}>
-                {p.live && (
-                  <span
-                    onClick={() => handleLiveDemo(p.live, p.title === "MediNexus")}
-                    style={{
-                      color: t.primary, fontSize: 14, fontWeight: 600,
-                      textDecoration: "none", borderBottom: `1px solid ${t.primary}40`,
-                      cursor: "pointer",
-                    }}
-                  >Live Demo ↗</span>
-                )}
-                {p.github && (
-                  <a href={p.github} target="_blank" rel="noreferrer" style={{
-                    color: t.textSec, fontSize: 14, fontWeight: 500,
-                    textDecoration: "none", borderBottom: `1px dashed ${t.textMuted}40`,
-                  }}>Source Code ↗</a>
-                )}
-              </div>
+              <p style={{ fontSize: 13, color: t.primary, fontWeight: 600, marginBottom: 10 }}>{p.sub}</p>
+              <p style={{ color: t.textSec, fontSize: 14, lineHeight: 1.75 }}>{p.desc}</p>
+              <TechTags tech={p.tech} t={t} />
+              <ProjectLinks p={p} t={t} />
             </div>
           </Glass>
         ))}
       </div>
 
-      {/* MediNexus loading notice */}
-      {showNotice && (
-        <div style={{
-          position: "fixed", inset: 0, zIndex: 200,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          background: "rgba(0,0,0,0.7)", backdropFilter: "blur(8px)",
-        }}>
-          <div style={{
-            background: t.surface, borderRadius: 20, padding: 32,
-            border: `1px solid ${t.border}`, maxWidth: 440, textAlign: "center",
-            boxShadow: `0 20px 60px rgba(0,0,0,0.3)`,
-          }}>
-            <div style={{ fontSize: 40, marginBottom: 16 }}>⏳</div>
-            <h3 style={{ fontSize: 20, fontWeight: 700, color: t.text, marginBottom: 12 }}>
-              Heads up!
-            </h3>
-            <p style={{ fontSize: 14, color: t.textSec, lineHeight: 1.7, marginBottom: 8 }}>
-              This project runs on Azure's free student tier, so the backend takes about
-              <strong style={{ color: t.primary }}> 30-45 seconds</strong> to wake up on first load.
-            </p>
-            <p style={{ fontSize: 14, color: t.textSec, lineHeight: 1.7, marginBottom: 24 }}>
-              Meanwhile, you can always enjoy a game! Head to the
-              <strong style={{ color: t.primary }}> terminal {">"} </strong>
-              in the bottom left corner, type <code style={{
-                background: t.primaryLight, padding: "2px 6px", borderRadius: 4,  
-                fontFamily: "monospace", fontSize: 13, color: t.primary,
-              }}>games</code> and pick what you'd like to play.
-            </p>
-            <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
-              <a
-                href={noticeUrl}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => setShowNotice(false)}
-                style={{
-                  padding: "12px 28px", borderRadius: 12, fontWeight: 600, fontSize: 14,
-                  border: "none", textDecoration: "none", cursor: "pointer",
-                  background: `linear-gradient(135deg, ${t.gFrom}, ${t.gTo})`, color: "#fff",
-                  boxShadow: `0 4px 16px ${t.glow}`,
-                }}
-              >
-                Go to Website ↗
-              </a>
-              <button
-                onClick={() => setShowNotice(false)}
-                style={{
-                  padding: "12px 28px", borderRadius: 12, fontWeight: 600, fontSize: 14,
-                  border: `1px solid ${t.border}`, background: "transparent",
-                  color: t.textSec, cursor: "pointer",
-                }}
-              >
-                Close
-              </button>
+      {/* Grid row — smaller cards for remaining projects */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+        gap: 16,
+      }}>
+        {rest.map((p) => (
+          <Glass key={p.title} style={{ position: "relative", overflow: "hidden" }}>
+            <div style={{
+              position: "absolute", top: 0, left: 0, right: 0, height: 3,
+              background: `linear-gradient(90deg, ${accents[p.accent % 3]}, ${accents[(p.accent + 1) % 3]})`,
+            }} />
+            <div style={{ paddingTop: 10 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 4 }}>
+                <h3 style={{ fontSize: 18, fontWeight: 800, color: t.text }}>{p.title}</h3>
+                <DateTag date={p.date} t={t} />
+              </div>
+              <p style={{ fontSize: 12, color: t.primary, fontWeight: 600, marginBottom: 8 }}>{p.sub}</p>
+              <p style={{ color: t.textSec, fontSize: 13, lineHeight: 1.7 }}>{p.desc}</p>
+              <TechTags tech={p.tech} t={t} />
+              <ProjectLinks p={p} t={t} />
             </div>
-          </div>
-        </div>
-      )}
+          </Glass>
+        ))}
+      </div>
     </Section>
   );
 }

@@ -1,7 +1,14 @@
 const data = {
   name: "Chinmay Sakhare",
-  roles: ["Software Engineer", "Full Stack Developer", "Cloud Enthusiast"],
+  roles: ["Software Engineer", "Full Stack Developer", "Cloud Enthusiast", "AI Enthusiast"],
   bio: "I build things for the web. 3+ years of writing payment systems, APIs, and microservices at AuroPay in Mumbai. Now doing my Master's at Northeastern, looking for a Summer 2026 co-op where I can ship real software with a great team.",
+
+  // ─── ABOUT ───────────────────────────────────────────────────────────────────
+  // Edit these strings to update the About section. No component changes needed.
+  aboutP1: "I'm a software engineer with 3.5 years of experience building payment systems, APIs, and microservices at AuroPay in Mumbai. I started in electronics engineering, got pulled into code, and never looked back.",
+  aboutP2: "Currently doing my Master's in Information Systems at Northeastern, focusing on systems design, data engineering, and applied AI. Looking for a Summer 2026 co-op where I can work on hard problems with a good team.",
+  aboutP3: "Outside of work — gym, planes taking off from Logan, and Costco runs.",
+
   email: "sakhare.c@northeastern.edu",
   phone: "857-421-2839",
   location: "Boston, MA",
@@ -9,45 +16,58 @@ const data = {
   github: "https://github.com/Chinmay-Sakhare07",
   resume: "/resume.pdf",
 
+  // ─── STATS ───────────────────────────────────────────────────────────────────
+  // Remove or add stat objects here. No emoji — plain labels only.
   stats: [
-    { val: "3.5+", label: "Years Building Software", icon: "🔥" },
-    { val: "50K+", label: "Daily Txns Processed", icon: "⚡" },
-    { val: "6", label: "Certifications", icon: "🏆" },
-    { val: "40%", label: "API Throughput Gain", icon: "🚀" },
+    { val: "3.5+", label: "Years Building Software" },
+    { val: "50K+", label: "Daily Txns Processed" },
+    { val: "6",    label: "Certifications" },
+    { val: "40%",  label: "API Throughput Gain" },
   ],
 
+  // ─── TECH STACK ──────────────────────────────────────────────────────────────
+  // Add new technologies here. cat values: Backend, Frontend, Data, Cloud, Tools, AI/ML
   stack: [
-    { name: ".NET", cat: "Backend" },
-    { name: "C#", cat: "Backend" },
-    { name: "Java", cat: "Backend" },
-    { name: "Python", cat: "Backend" },
-    { name: "Node.js", cat: "Backend" },
-    { name: "React", cat: "Frontend" },
-    { name: "Angular", cat: "Frontend" },
-    { name: "TypeScript", cat: "Frontend" },
-    { name: "JavaScript", cat: "Frontend" },
-    { name: "Tailwind", cat: "Frontend" },
-    { name: "HTML/CSS", cat: "Frontend" },
-    { name: "SQL Server", cat: "Data" },
-    { name: "MySQL", cat: "Data" },
-    { name: "PostgreSQL", cat: "Data" },
-    { name: "MongoDB", cat: "Data" },
-    { name: "AWS", cat: "Cloud" },
-    { name: "Azure", cat: "Cloud" },
-    { name: "Docker", cat: "Cloud" },
-    { name: "Kubernetes", cat: "Cloud" },
-    { name: "Git", cat: "Tools" },
-    { name: "Postman", cat: "Tools" },
-    { name: "VS Code", cat: "Tools" },
-    { name: "IntelliJ", cat: "Tools" },
+    { name: ".NET",         cat: "Backend"  },
+    { name: "C#",           cat: "Backend"  },
+    { name: "Java",         cat: "Backend"  },
+    { name: "Python",       cat: "Backend"  },
+    { name: "Node.js",      cat: "Backend"  },
+    { name: "FastAPI",      cat: "Backend"  },
+    { name: "React",        cat: "Frontend" },
+    { name: "Angular",      cat: "Frontend" },
+    { name: "TypeScript",   cat: "Frontend" },
+    { name: "JavaScript",   cat: "Frontend" },
+    { name: "Tailwind",     cat: "Frontend" },
+    { name: "HTML/CSS",     cat: "Frontend" },
+    { name: "SQL Server",   cat: "Data"     },
+    { name: "MySQL",        cat: "Data"     },
+    { name: "PostgreSQL",   cat: "Data"     },
+    { name: "MongoDB",      cat: "Data"     },
+    { name: "Cassandra",    cat: "Data"     },
+    { name: "AWS",          cat: "Cloud"    },
+    { name: "Azure",        cat: "Cloud"    },
+    { name: "Docker",       cat: "Cloud"    },
+    { name: "Kubernetes",   cat: "Cloud"    },
+    { name: "Fly.io",       cat: "Cloud"    },
+    { name: "Git",          cat: "Tools"    },
+    { name: "Postman",      cat: "Tools"    },
+    { name: "VS Code",      cat: "Tools"    },
+    { name: "IntelliJ",     cat: "Tools"    },
+    { name: "PyTorch",      cat: "AI/ML"    },
+    { name: "YOLOv8",       cat: "AI/ML"    },
+    { name: "OpenCV",       cat: "AI/ML"    },
+    { name: "scikit-learn", cat: "AI/ML"    },
   ],
 
+  // ─── EXPERIENCE ──────────────────────────────────────────────────────────────
+  // Add new roles by pushing a new object. current: true shows the "Current" badge.
   experience: [
     {
       role: "Software Engineer",
       company: "Aurionpro Payments (AuroPay)",
       location: "Mumbai, India",
-      period: "Dec 2021 to Aug 2025",
+      period: "Dec 2021 – Aug 2025",
       current: false,
       desc: "Worked on the core payments platform powering real-time transactions for major Indian banks.",
       points: [
@@ -62,62 +82,108 @@ const data = {
       role: "Fitness Consultant",
       company: "Marino Recreation Center, Northeastern",
       location: "Boston, MA",
-      period: "Sep 2025 to Present",
+      period: "Sep 2025 – Present",
       current: true,
       desc: "Because building software is only half the fun.",
       points: [
-        "Coach 50+ daily visitors on form and technique. Supervise the gym floor, keep things running smooth.",
+        "Coach 50+ daily visitors on form, technique, and programming. Supervise ~100 patrons on the floor, ensuring equipment safety and a smooth gym environment.",
+        "Handle real-time communication across a fast-paced facility — coordinating with staff, managing member concerns, and keeping the floor running without a hitch.",
       ],
     },
   ],
 
+  // ─── EDUCATION ───────────────────────────────────────────────────────────────
+  // image: filename in /public (e.g. "/NEU.jpg"). bullets: shown as list items.
   education: [
     {
       degree: "MS in Information Systems",
       school: "Northeastern University",
       location: "Boston, MA",
-      period: "Sep 2025 to Aug 2027",
-      note: "Coursework: Application Engineering, Database Design, Data Warehousing & BI, Data Science Engineering",
+      period: "Sep 2025 – Aug 2027",
+      image: "/NEU.jpg",
+      bullets: [
+        "Application Engineering and Development",
+        "Data Management and Database Design",
+        "Data Warehousing and Business Intelligence",
+        "Data Science Engineering Methods and Tools",
+      ],
     },
     {
       degree: "BE in Electronics Engineering",
-      school: "University of Mumbai",
+      school: "RAIT — University of Mumbai",
       location: "Mumbai, India",
-      period: "Graduated Jun 2021",
-      note: "Thesis: ML-based classification of neurological disorders using EEG signals, DWT feature extraction, and ANN classifiers. Hit 80% accuracy.",
+      period: "Jun 2017 – Jun 2021",
+      image: "/RAIT.jpg",
+      bullets: [
+        "Thesis: ML-based classification of neurological disorders using EEG signals — Savitzky-Golay filtering, DWT feature extraction, and ANN classifiers. Achieved 80% accuracy.",
+      ],
     },
   ],
 
+  // ─── PROJECTS ────────────────────────────────────────────────────────────────
+  // To add a project: push a new object to this array.
+  // featured: true  → large card in the top featured row (keep to 2 max)
+  // featured: false → smaller card in the grid below
+  // date: shown as a tag. live/github: set to null to hide the button.
   projects: [
+    {
+      title: "LogBase",
+      sub: "Distributed Log Analytics Platform",
+      date: "Mar – Apr 2026",
+      desc: "Built a distributed log analytics system mirroring the internals of Splunk and Datadog. Python file-tailer agent ships events via HTTP with exponential backoff and disk buffering for at-least-once delivery. FastAPI ingestion validates and writes raw logs to Astra DB (Cassandra) partitioned by service and date. Hourly severity counts upserted into Neon PostgreSQL for cheap aggregation. React frontend with live tail, keyword search, time-range filters, CSV export, and a floating log generator for live demos.",
+      tech: ["Python", "FastAPI", "Cassandra", "PostgreSQL", "React", "Docker", "Fly.io", "GitHub Actions"],
+      live: "https://loganalyticssystem.vercel.app/",
+      github: "https://github.com/Chinmay-Sakhare07/Log_Analytics_System",
+      featured: true,
+      accent: 0,
+    },
     {
       title: "MediNexus",
       sub: "Hospital Management System",
-      desc: "Full-stack hospital platform I built for my database course. 26-table normalized SQL Server backend, .NET Core APIs, React frontend. Handles patient registration, doctor scheduling, billing with insurance claims, pharmacy inventory. Deployed on Azure + Netlify.",
+      date: "Jan 2026",
+      desc: "Full-stack hospital platform built for a database design course. 26-table normalized SQL Server schema, .NET Core REST APIs, React frontend. Covers patient registration, doctor scheduling, billing with insurance claims, and pharmacy inventory. Deployed on Azure and Netlify.",
       tech: [".NET Core", "React", "SQL Server", "Azure", "Tailwind"],
       live: "https://medinexushealth.netlify.app",
       github: "https://github.com/Chinmay-Sakhare07",
-      accent: 0,
+      featured: true,
+      accent: 1,
+    },
+    {
+      title: "VibeReact",
+      sub: "Browser Audio Visualizer",
+      date: "Oct 2025",
+      desc: "Real-time audio visualizer that makes your screen react to music. Uses the Web Audio API to capture microphone input, runs FFT frequency analysis at 60fps, and detects beats by averaging bass-range frequency bins against a rolling threshold. Four visual modes: Strobe, Disco, RGB, and Rainbow.",
+      tech: ["React 18", "Web Audio API", "Vite", "Vercel"],
+      live: "https://vibereact.vercel.app/",
+      github: "https://github.com/Chinmay-Sakhare07/VibeReact",
+      featured: false,
+      accent: 2,
     },
     {
       title: "Cafe Vision",
       sub: "Real-Time AI Analytics",
-      desc: "Hackathon project at MGEN 2025. Built a real-time vision pipeline using YOLOv8 and OpenCV that processes live camera feeds with sub-second inference. Tracks customer engagement and staff productivity. Judges recognized it for practical business impact.",
+      date: "Feb 2025",
+      desc: "Hackathon project at MGEN 2025. Real-time vision pipeline using YOLOv8 and OpenCV that processes live camera feeds with sub-second inference. Tracks customer engagement and staff productivity. Recognized by judges for practical business impact.",
       tech: ["Python", "YOLOv8", "OpenCV", "PyTorch"],
       live: null,
       github: "https://github.com/Chinmay-Sakhare07",
-      accent: 1,
+      featured: false,
+      accent: 0,
     },
     {
       title: "Neuro Classifier",
-      sub: "EEG Signal Processing (B.E. Thesis)",
-      desc: "My undergrad thesis. Built an EEG analysis system in MATLAB that detects epilepsy from brain signals. Used Savitzky-Golay filtering, Discrete Wavelet Transform for feature extraction, and ANN for classification.",
-      tech: ["MATLAB", "Machine Learning", "Signal Processing", "DWT"],
+      sub: "EEG Signal Processing",
+      date: "Jun 2021",
+      desc: "Undergraduate thesis. EEG analysis system in MATLAB that detects epilepsy from brain signals. Savitzky-Golay filtering for noise reduction, Discrete Wavelet Transform for feature extraction, ANN for classification. Achieved 80% accuracy across test subjects.",
+      tech: ["MATLAB", "Machine Learning", "Signal Processing", "DWT", "ANN"],
       live: null,
       github: null,
-      accent: 2,
+      featured: false,
+      accent: 1,
     },
   ],
 
+  // ─── CERTIFICATIONS ──────────────────────────────────────────────────────────
   certifications: [
     { name: "AWS Certified Cloud Practitioner", issuer: "Amazon Web Services", date: "Jan 2024", url: "https://aws.amazon.com/verification", code: "98Z8MJ1D5B1QQYCY", licenseId: "98Z8MJ1D5B1QQYCY", preview: "/certs/AWS Certified Cloud Practitioner.pdf" },
     { name: "Enterprise Web Dev (.NET Core)", issuer: "Swabhav Techlabs", date: "Dec 2021", url: null, licenseId: null, preview: "/certs/Enterprise Web Dev (.NET Core).pdf" },

@@ -1,12 +1,10 @@
 import { useTheme } from "../context/ThemeContext";
 import useTypingEffect from "../hooks/useTypingEffect";
-import useMouse from "../hooks/useMouse";
 import data from "../config/data";
 
-export default function Hero({ scrollY }) {
+export default function Hero({ scrollY, onOpenTerminal }) {
   const { t, mode } = useTheme();
   const typed = useTypingEffect(data.roles);
-  const mouse = useMouse();
 
   const go = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
@@ -15,14 +13,6 @@ export default function Hero({ scrollY }) {
       minHeight: "100vh", display: "flex", alignItems: "center",
       padding: "120px 24px 80px", position: "relative",
     }}>
-      {/* Cursor glow */}
-      <div style={{
-        position: "fixed", width: 600, height: 600, borderRadius: "50%", pointerEvents: "none",
-        background: `radial-gradient(circle, ${t.glow}, transparent 70%)`,
-        left: mouse.x - 300, top: mouse.y - 300,
-        transition: "left 0.3s ease-out, top 0.3s ease-out", zIndex: 0,
-      }} />
-
       {/* Parallax orbs */}
       <div style={{ position: "absolute", width: 300, height: 300, borderRadius: "50%", background: `radial-gradient(circle, ${t.gFrom}12, transparent)`, top: `calc(10% - ${scrollY * 0.15}px)`, right: "5%", pointerEvents: "none" }} />
       <div style={{ position: "absolute", width: 200, height: 200, borderRadius: "50%", background: `radial-gradient(circle, ${t.gTo}10, transparent)`, bottom: `calc(15% + ${scrollY * 0.1}px)`, left: "8%", pointerEvents: "none" }} />
@@ -50,7 +40,7 @@ export default function Hero({ scrollY }) {
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <a href={data.resume} download style={{
               padding: "14px 32px", borderRadius: 12, fontWeight: 600, fontSize: 15,
-              cursor: "pointer", border: "none", textDecoration: "none",
+              border: "none", textDecoration: "none",
               background: `linear-gradient(135deg, ${t.gFrom}, ${t.gTo})`, color: "#fff",
               boxShadow: `0 4px 20px ${t.glow}`, transition: "all 0.3s",
               display: "inline-flex", alignItems: "center", gap: 8,
@@ -65,6 +55,24 @@ export default function Hero({ scrollY }) {
             }}>
               Let's Talk
             </span>
+            {/* Terminal CTA */}
+            <span
+              onClick={onOpenTerminal}
+              title="Open the terminal"
+              style={{
+                padding: "13px 20px", borderRadius: 12, fontWeight: 600, fontSize: 14,
+                cursor: "pointer",
+                border: `1px solid ${t.border}`,
+                background: t.surface,
+                color: t.primary,
+                fontFamily: "monospace",
+                display: "inline-flex", alignItems: "center", gap: 6,
+                transition: "all 0.2s",
+                boxShadow: `0 2px 8px ${t.glow}`,
+              }}
+            >
+              &gt;_ terminal
+            </span>
           </div>
 
           <div style={{ display: "flex", gap: 20, marginTop: 28 }}>
@@ -78,7 +86,7 @@ export default function Hero({ scrollY }) {
           </div>
         </div>
 
-        {/* Code editor headshot */}
+        {/* Code editor card */}
         <div style={{ flex: "0 0 320px", position: "relative" }}>
           <div style={{
             borderRadius: 20, overflow: "hidden", border: `1px solid ${t.border}`,

@@ -4,8 +4,8 @@ import themes from "../config/themes";
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  const [mode, setMode] = useState("dark");
-  const [palette, setPalette] = useState("midnight");
+  const [mode, setMode] = useState("light");
+  const [palette, setPalette] = useState("lavender");
 
   // Reset palette if it doesn't exist in the new mode
   useEffect(() => {

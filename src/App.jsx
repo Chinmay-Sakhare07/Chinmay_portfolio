@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTheme } from "./context/ThemeContext";
-import useMouse from "./hooks/useMouse";
-import useCursorTrail from "./hooks/useCursorTrail";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -18,35 +16,81 @@ import MemoryGame from "./components/MemoryGame";
 import TetrisGame from "./components/TetrisGame";
 import TypingGame from "./components/TypingGame";
 
+// ─── SECTION CONFETTI CONFIG ──────────────────────────────────────────────────
+// Each entry maps a section id to the emojis that burst when it enters view.
+const SECTION_CONFETTI = {
+  about:          ["👋", "🙌", "✌️"],
+  experience:     ["💼", "⚡", "🔧"],
+  projects:       ["🚀", "💻", "🛠️"],
+  education:      ["🎓", "📚", "✏️"],
+  certifications: ["🏆", "🎖️", "📜"],
+  contact:        ["📬", "✉️", "🤝"],
+};
+
 const KONAMI = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+
+// Spawn a short emoji confetti burst at a random position near center-top of section
+function spawnConfetti(emojis) {
+  const count = 8;
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement("div");
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    const x = 40 + Math.random() * 20; // 40-60% from left
+    el.style.cssText = `
+      position:fixed;
+      left:${x}vw;
+      top:30vh;
+      font-size:${20 + Math.random() * 14}px;
+      pointer-events:none;
+      z-index:9999;
+      opacity:1;
+      transform:translateY(0) rotate(0deg);
+      transition:none;
+      animation: confettiBurst ${0.7 + Math.random() * 0.6}s ease-out ${i * 0.05}s forwards;
+    `;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1600);
+  }
+}
 
 export default function App() {
   const { t } = useTheme();
-  const mouse = useMouse();
-  const { particles } = useCursorTrail(14, 50);
   const [scrollY, setScrollY] = useState(0);
-  const [clicking, setClicking] = useState(false);
+  const [terminalOpen, setTerminalOpen] = useState(false);
   const [showSnake, setShowSnake] = useState(false);
   const [showMemory, setShowMemory] = useState(false);
   const [showTetris, setShowTetris] = useState(false);
   const [showTyping, setShowTyping] = useState(false);
   const [konamiKeys, setKonamiKeys] = useState([]);
   const [konamiActive, setKonamiActive] = useState(false);
+  const firedSections = useRef(new Set());
 
+  // Scroll progress
   useEffect(() => {
     const handler = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
+  // Section confetti via IntersectionObserver
   useEffect(() => {
-    const down = () => setClicking(true);
-    const up = () => setClicking(false);
-    window.addEventListener("mousedown", down);
-    window.addEventListener("mouseup", up);
-    return () => { window.removeEventListener("mousedown", down); window.removeEventListener("mouseup", up); };
+    const observers = [];
+    Object.keys(SECTION_CONFETTI).forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting && !firedSections.current.has(id)) {
+          firedSections.current.add(id);
+          spawnConfetti(SECTION_CONFETTI[id]);
+        }
+      }, { threshold: 0.25 });
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach(o => o.disconnect());
   }, []);
 
+  // Konami code
   useEffect(() => {
     const handler = (e) => {
       setKonamiKeys(prev => {
@@ -72,44 +116,8 @@ export default function App() {
       background: t.bg, color: t.text, minHeight: "100vh",
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
       transition: "background 0.4s, color 0.4s",
-      position: "relative", overflow: "hidden",
-      cursor: "none",
+      position: "relative",
     }}>
-
-      {/* Custom cursor - dot */}
-      <div style={{
-        position: "fixed", zIndex: 9999, pointerEvents: "none",
-        width: clicking ? 6 : 8, height: clicking ? 6 : 8,
-        borderRadius: "50%", background: t.primary,
-        left: mouse.x - (clicking ? 3 : 4),
-        top: mouse.y - (clicking ? 3 : 4),
-        transition: "width 0.15s, height 0.15s, left 0.05s, top 0.05s",
-        mixBlendMode: "difference",
-      }} />
-
-      {/* Custom cursor - ring */}
-      <div style={{
-        position: "fixed", zIndex: 9998, pointerEvents: "none",
-        width: clicking ? 28 : 36, height: clicking ? 28 : 36,
-        borderRadius: "50%", border: `1.5px solid ${t.primary}80`,
-        left: mouse.x - (clicking ? 14 : 18),
-        top: mouse.y - (clicking ? 14 : 18),
-        transition: "width 0.2s ease-out, height 0.2s ease-out, left 0.15s ease-out, top 0.15s ease-out",
-        background: clicking ? `${t.primary}10` : "transparent",
-      }} />
-
-      {/* Emoji trail particles */}
-      {particles.map((p) => (
-        <div key={p.id} style={{
-          position: "fixed", left: p.x, top: p.y,
-          fontSize: p.size, pointerEvents: "none", zIndex: 9997,
-          opacity: 0, transform: `rotate(${p.rotation}deg)`,
-          animation: "emojiFloat 0.8s ease-out forwards",
-        }}>
-          {p.emoji}
-        </div>
-      ))}
-
       {/* Scroll progress bar */}
       <div style={{
         position: "fixed", top: 0, left: 0, height: 3, zIndex: 200,
@@ -117,14 +125,14 @@ export default function App() {
         width: `${progress}%`, transition: "width 0.1s linear",
       }} />
 
-      {/* Noise texture */}
+      {/* Noise texture overlay */}
       <div style={{
         position: "fixed", inset: 0, opacity: 0.025, pointerEvents: "none", zIndex: 0,
         backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
       }} />
 
       <Nav scrollY={scrollY} />
-      <Hero scrollY={scrollY} />
+      <Hero scrollY={scrollY} onOpenTerminal={() => setTerminalOpen(true)} />
       <About />
       <TechStack />
       <Experience />
@@ -135,13 +143,15 @@ export default function App() {
       <Footer />
 
       <Terminal
+        externalOpen={terminalOpen}
+        onExternalClose={() => setTerminalOpen(false)}
         onOpenSnake={() => setShowSnake(true)}
         onOpenMemory={() => setShowMemory(true)}
         onOpenTetris={() => setShowTetris(true)}
         onOpenTyping={() => setShowTyping(true)}
       />
 
-      {showSnake && <SnakeGame onClose={() => setShowSnake(false)} />}
+      {showSnake  && <SnakeGame  onClose={() => setShowSnake(false)}  />}
       {showMemory && <MemoryGame onClose={() => setShowMemory(false)} />}
       {showTetris && <TetrisGame onClose={() => setShowTetris(false)} />}
       {showTyping && <TypingGame onClose={() => setShowTyping(false)} />}
@@ -168,7 +178,7 @@ export default function App() {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           style={{
             position: "fixed", bottom: 28, right: 28, width: 46, height: 46, borderRadius: 14,
-            border: "none", cursor: "none",
+            border: "none", cursor: "pointer",
             background: `linear-gradient(135deg, ${t.gFrom}, ${t.gTo})`,
             color: "#fff", fontSize: 18, boxShadow: `0 4px 20px ${t.glow}`,
             display: "flex", alignItems: "center", justifyContent: "center",
@@ -181,57 +191,27 @@ export default function App() {
       <style>{`
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
         @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes emojiFloat {
-          0% { opacity: 0.9; transform: translateY(0) scale(1) rotate(0deg); }
-          50% { opacity: 0.6; }
-          100% { opacity: 0; transform: translateY(-40px) scale(0.3) rotate(180deg); }
-        }
         @keyframes slideInLeft { from{opacity:0;transform:translateX(-30px)} to{opacity:1;transform:translateX(0)} }
         @keyframes slideInRight { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
         @keyframes scaleIn { from{opacity:0;transform:scale(0.9)} to{opacity:1;transform:scale(1)} }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
-        *{margin:0;padding:0;box-sizing:border-box;cursor:none !important}
-        html{scroll-behavior:smooth}
-        a, button, span, input { cursor: none !important; }
-        ::selection{background:${t.primary}30}
+        @keyframes confettiBurst {
+          0%   { opacity:1; transform: translateY(0) rotate(0deg) scale(1); }
+          60%  { opacity:0.8; }
+          100% { opacity:0; transform: translateY(-120px) rotate(${Math.random() > 0.5 ? "" : "-"}${180 + Math.random() * 180}deg) scale(0.4); }
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth }
+        ::selection { background:${t.primary}30 }
 
         @media (max-width: 768px) {
-          section > div > div[style*="flex: 1 1 440px"] {
-            text-align: center;
-          }
-          section > div > div[style*="flex: 0 0 320px"] {
-            flex: 0 0 260px !important;
-          }
-          nav > div > div > div[style*="gap: 2"] {
-            display: none !important;
-          }
+          section > div > div[style*="flex: 1 1 440px"] { text-align: center; }
+          section > div > div[style*="flex: 0 0 320px"] { flex: 0 0 260px !important; }
+          nav > div > div > div[style*="gap: 2"] { display: none !important; }
         }
-
         @media (max-width: 640px) {
-          div[style*="gridTemplateColumns: repeat(6"] {
-            grid-template-columns: 1fr !important;
-          }
-          div[style*="gridTemplateColumns: repeat(6"] > div {
-            grid-column: span 1 !important;
-            grid-row: span 1 !important;
-          }
-          div[style*="gridTemplateColumns: repeat(auto-fill, minmax(100px"] {
-            grid-template-columns: repeat(3, 1fr) !important;
-          }
-          div[style*="gridTemplateColumns: repeat(auto-fill, minmax(300px"] {
-            grid-template-columns: 1fr !important;
-          }
-          section > div > div[style*="flex: 0 0 320px"],
-          section > div > div[style*="flex: 0 0 260px"] {
-            flex: 0 0 100% !important;
-            max-width: 300px;
-          }
-          section[id] {
-            padding: 60px 16px !important;
-          }
-          h1 {
-            font-size: 36px !important;
-          }
+          section[id] { padding: 60px 16px !important; }
+          h1 { font-size: 36px !important; }
         }
       `}</style>
     </div>

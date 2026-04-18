@@ -51,11 +51,33 @@ const COFFEE = `
    Have some coffee!
 `;
 
-export default function Terminal({ onOpenSnake, onOpenMemory, onOpenTetris, onOpenTyping }) {
+export default function Terminal({ externalOpen, onExternalClose, onOpenSnake, onOpenMemory, onOpenTetris, onOpenTyping }) {
   const { t, setMode } = useTheme();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
-  const [hint, setHint] = useState(true);
+  // Show hint only on first visit (localStorage flag)
+  const [hint, setHint] = useState(() => {
+    try { return !localStorage.getItem("termHintDone"); } catch { return true; }
+  });
+
+  const dismissHint = () => {
+    setHint(false);
+    try { localStorage.setItem("termHintDone", "1"); } catch {}
+  };
+
+  // Hero CTA can open terminal externally
+  useEffect(() => {
+    if (externalOpen) {
+      setOpen(true);
+      dismissHint();
+      setTimeout(() => inputRef.current?.focus(), 100);
+    }
+  }, [externalOpen]);
+
+  const handleClose = () => {
+    setOpen(false);
+    onExternalClose?.();
+  };
   const [matrixActive, setMatrixActive] = useState(false);
   const [history, setHistory] = useState([
     { type: "sys", text: "Welcome to chinmay.dev terminal v2.0" },
@@ -157,26 +179,26 @@ export default function Terminal({ onOpenSnake, onOpenMemory, onOpenTetris, onOp
       );
     } else if (c === "snake") {
       onOpenSnake?.();
-      setOpen(false);
+      handleClose();
       res = out("> Launching Snake...");
     } else if (c === "memory") {
       onOpenMemory?.();
-      setOpen(false);
+      handleClose();
       res = out("> Launching Memory...");
     } else if (c === "tetris") {
       onOpenTetris?.();
-      setOpen(false);
+      handleClose();
       res = out("> Launching Tetris...");
     } else if (c === "typing" || c === "type" || c === "typing test") {
       onOpenTyping?.();
-      setOpen(false);
+      handleClose();
       res = out("> Launching Typing Test...");
     } else if (c === "clear") {
       setHistory([]);
       setInput("");
       return;
     } else if (c === "exit") {
-      setOpen(false);
+      handleClose();
       return;
     } else if (c === "") {
       return;
@@ -191,11 +213,12 @@ export default function Terminal({ onOpenSnake, onOpenMemory, onOpenTetris, onOp
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [history]);
 
-  // Auto-dismiss hint after 10 seconds
+  // Auto-dismiss hint after 12 seconds on first visit
   useEffect(() => {
-    const timer = setTimeout(() => setHint(false), 12000);
+    if (!hint) return;
+    const timer = setTimeout(() => dismissHint(), 12000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [hint]);
 
   return (
     <>
@@ -227,7 +250,7 @@ export default function Terminal({ onOpenSnake, onOpenMemory, onOpenTetris, onOp
             transform: "rotate(45deg)",
           }} />
           <span
-            onClick={() => setHint(false)}
+            onClick={dismissHint}
             style={{
               position: "absolute", top: 4, right: 8, fontSize: 14,
               color: t.textMuted, cursor: "pointer",
@@ -236,9 +259,9 @@ export default function Terminal({ onOpenSnake, onOpenMemory, onOpenTetris, onOp
         </div>
       )}
 
-      {/* Toggle button with pulse animation */}
+      {/* Toggle button */}
       <button
-        onClick={() => { setOpen(!open); setHint(false); setTimeout(() => inputRef.current?.focus(), 100); }}
+        onClick={() => { setOpen(!open); dismissHint(); if (!open) setTimeout(() => inputRef.current?.focus(), 100); }}
         style={{
           position: "fixed", bottom: 28, left: 28, width: 46, height: 46, borderRadius: 14,
           border: `1px solid ${open ? t.primary : t.border}`, cursor: "pointer",
@@ -270,7 +293,7 @@ export default function Terminal({ onOpenSnake, onOpenMemory, onOpenTetris, onOp
             display: "flex", alignItems: "center", gap: 8,
             borderBottom: "1px solid #21262d",
           }}>
-            <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#f85149", cursor: "pointer" }} onClick={() => setOpen(false)} />
+            <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#f85149", cursor: "pointer" }} onClick={handleClose} />
             <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#d29922" }} />
             <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#3fb950" }} />
             <span style={{ flex: 1, textAlign: "center", fontSize: 11, color: "#8b949e", fontFamily: "monospace" }}>
