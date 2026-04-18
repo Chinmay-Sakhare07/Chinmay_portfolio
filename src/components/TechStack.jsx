@@ -46,7 +46,7 @@ const ICONS = {
   "Azure Data Factory": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azure/azure-original.svg",
   "SSMS":               "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg",
   "DBeaver":            "https://upload.wikimedia.org/wikipedia/commons/b/b5/DBeaver_logo.svg",
-  "Navicat":            "https://icon-icons.com/downloadimage.php?id=93851&root=1233/PNG/512/&file=navicat_93851.png",
+  "Navicat":            "/icons/navicat_logo.png",
   "ER Studio":          "/icons/er-studio.png",
   // AI/ML — devicons has PyTorch and OpenCV; YOLOv8 and scikit-learn use SimpleIcons
   "PyTorch":      "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pytorch/pytorch-original.svg",
