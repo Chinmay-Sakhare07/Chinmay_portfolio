@@ -5,9 +5,9 @@ const data = {
 
   // ─── ABOUT ───────────────────────────────────────────────────────────────────
   // Edit these strings to update the About section. No component changes needed.
-  aboutP1: "I'm a software engineer with 3.5 years of experience building payment systems, APIs, and microservices at AuroPay in Mumbai. I started in electronics engineering, got pulled into code, and never looked back.",
+  aboutP1: "I'm a software engineer with 3.5+ years of experience building payment systems, APIs, and microservices at AuroPay in Mumbai. I started in electronics engineering, got pulled into code, and never looked back.",
   aboutP2: "Currently doing my Master's in Information Systems at Northeastern, focusing on systems design, data engineering, and applied AI. Looking for a Summer 2026 co-op where I can work on hard problems with a good team.",
-  aboutP3: "Outside of work — gym, planes taking off from Logan, and Costco runs.",
+  aboutP3: "Outside of work - gym, Spotting planes taking off from Logan, and Costco runs.",
 
   email: "sakhare.c@northeastern.edu",
   phone: "857-421-2839",
@@ -69,10 +69,10 @@ const data = {
       location: "Mumbai, India",
       period: "Dec 2021 – Aug 2025",
       current: false,
-      desc: "Worked on the core payments platform powering real-time transactions for major Indian banks.",
+      desc: "Engineered secure, compliant, scalable, event‑driven microservices for AuroPay’s real‑time payments platform supporting high‑volume transactions.",
       points: [
         "Built and scaled payment microservices in .NET Core + SQL + AWS that handled millions of daily transactions. Got API throughput up by 40%.",
-        "Designed a reconciliation system with a tri-party rule engine. Processed 50K+ transactions a day, replaced 60-80% of manual settlement work.",
+        "Designed a reconciliation system with a dynamic tri-party rule engine. Processed 50K+ transactions a day, replaced 75-90% of manual settlement work.",
         "Built Team Access, a role-based access control system with AES-256 encryption so users only saw what they were supposed to.",
         "Shipped BNPL and fraud detection features. Adoption went up 20%, caught 15% more bad actors.",
         "Helped pass PCI DSS and SAR compliance audits, worked closely with product and compliance on securing 100K+ monthly cardholder transactions.",
@@ -112,7 +112,7 @@ const data = {
       degree: "BE in Electronics Engineering",
       school: "RAIT — University of Mumbai",
       location: "Mumbai, India",
-      period: "Jun 2017 – Jun 2021",
+      period: "Graduated Jun 2021",
       image: "/RAIT.jpg",
       bullets: [
         "Thesis: ML-based classification of neurological disorders using EEG signals — Savitzky-Golay filtering, DWT feature extraction, and ANN classifiers. Achieved 80% accuracy.",
