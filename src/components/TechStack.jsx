@@ -34,25 +34,25 @@ const ICONS = {
   "Azure":        "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg",
   "Docker":       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
   "Kubernetes":   "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg",
-  "Fly.io":       "https://cdn.simpleicons.org/flydotio/7c3aed",
+  "Fly.io":       null,
   // Tools
   "Git":          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
   "Postman":      "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg",
   "VS Code":      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
   "IntelliJ":     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/intellij/intellij-original.svg",
   // Data Tools
-  "Power BI":           "https://cdn.simpleicons.org/powerbi/F2C811",
-  "Tableau":            "https://cdn.simpleicons.org/tableau/E97627",
+  "Power BI":           "https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg",
+  "Tableau":            "https://upload.wikimedia.org/wikipedia/commons/4/4b/Tableau_Logo.png",
   "Azure Data Factory": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azure/azure-original.svg",
   "SSMS":               "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg",
-  "DBeaver":            "https://cdn.simpleicons.org/dbeaver/382923",
-  "Navicat":            "https://cdn.simpleicons.org/navicat/00AB44",
+  "DBeaver":            null,
+  "Navicat":            null,
   "ER Studio":          null,
   // AI/ML — devicons has PyTorch and OpenCV; YOLOv8 and scikit-learn use SimpleIcons
   "PyTorch":      "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pytorch/pytorch-original.svg",
   "OpenCV":       "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/opencv/opencv-original.svg",
   "scikit-learn": "https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg",
-  "YOLOv8":       "https://cdn.simpleicons.org/ultralytics/7c3aed",
+  "YOLOv8":       null,
 };
 
 export default function TechStack() {
@@ -102,12 +102,22 @@ export default function TechStack() {
                   alt={s.name}
                   style={{ width: 36, height: 36, objectFit: "contain" }}
                   loading="lazy"
+                  onError={e => {
+                    // If image fails to load, show styled initials instead
+                    e.target.style.display = "none";
+                    e.target.nextSibling.style.display = "flex";
+                  }}
                 />
-              ) : (
-                <span style={{ fontSize: 20, fontWeight: 700, color: t.primary }}>
-                  {s.name.slice(0, 2)}
-                </span>
-              )}
+              ) : null}
+              <span style={{
+                fontSize: 13, fontWeight: 800, color: t.primary,
+                display: ICONS[s.name] ? "none" : "flex",
+                alignItems: "center", justifyContent: "center",
+                width: 36, height: 36, borderRadius: 8,
+                background: t.primaryLight, letterSpacing: "-0.5px",
+              }}>
+                {s.name.split(/[\s.\-/]/)[0].slice(0, 3)}
+              </span>
             </div>
             <div style={{ fontSize: 12, fontWeight: 600, color: t.text }}>{s.name}</div>
             <div style={{ fontSize: 10, color: t.textMuted, marginTop: 2 }}>{s.cat}</div>
