@@ -13,6 +13,7 @@ function ProjectLinks({ p, t }) {
           href={p.live}
           target="_blank"
           rel="noreferrer"
+          data-umami-event={`Project Live Demo - ${p.title}`}
           style={{
             color: t.primary, fontSize: 13, fontWeight: 600,
             textDecoration: "none", borderBottom: `1px solid ${t.primary}40`,
@@ -26,6 +27,7 @@ function ProjectLinks({ p, t }) {
           href={p.github}
           target="_blank"
           rel="noreferrer"
+          data-umami-event={`Project Source Code - ${p.title}`}
           style={{
             color: t.textSec, fontSize: 13, fontWeight: 500,
             textDecoration: "none", borderBottom: `1px dashed ${t.textMuted}40`,
@@ -95,7 +97,7 @@ export default function Projects() {
     <Section id="projects">
       <SectionTitle sub="What I've built">Projects</SectionTitle>
 
-      {/* Featured row — 2 large side-by-side cards */}
+      {/* Featured row */}
       <div style={{
         display: "grid",
         gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
@@ -105,7 +107,6 @@ export default function Projects() {
         {featured.map((p, i) => (
           <RevealCard key={p.title} index={i} direction={i === 0 ? "left" : "right"}>
             <Glass style={{ position: "relative", overflow: "hidden", height: "100%" }}>
-            {/* Accent bar */}
             <div style={{
               position: "absolute", top: 0, left: 0, right: 0, height: 3,
               background: `linear-gradient(90deg, ${accents[p.accent % 3]}, ${accents[(p.accent + 1) % 3]})`,
@@ -125,7 +126,7 @@ export default function Projects() {
         ))}
       </div>
 
-      {/* Grid row — smaller cards for remaining projects */}
+      {/* Grid row */}
       <div style={{
         display: "grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",

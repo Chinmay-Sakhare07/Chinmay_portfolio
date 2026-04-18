@@ -20,7 +20,6 @@ export default function Nav({ scrollY }) {
 
   const go = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
-  // Show theme hint after 8 seconds, auto-dismiss after 18
   useEffect(() => {
     const showTimer = setTimeout(() => {
       if (!hintDismissed) {
@@ -53,6 +52,7 @@ export default function Nav({ scrollY }) {
         <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <span
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            data-umami-event="Nav Logo Click"
             style={{ fontSize: 24, fontWeight: 900, cursor: "pointer", color: t.primary, letterSpacing: -1 }}
           >
             chinmay.
@@ -64,6 +64,7 @@ export default function Nav({ scrollY }) {
                 <span
                   key={n}
                   onClick={() => go(n)}
+                  data-umami-event={`Nav ${n.charAt(0).toUpperCase() + n.slice(1)}`}
                   style={{
                     padding: "6px 12px", borderRadius: 8, cursor: "pointer",
                     fontSize: 13, fontWeight: 500, color: t.textSec,
@@ -88,6 +89,7 @@ export default function Nav({ scrollY }) {
               }}>
                 <span
                   onClick={() => { toggleMode(); dismissHint(); }}
+                  data-umami-event={`Theme Toggle ${mode === "light" ? "Dark" : "Light"}`}
                   style={{
                     cursor: "pointer", fontSize: 16, padding: "2px 4px", borderRadius: 6,
                     transition: "transform 0.3s",
@@ -103,6 +105,7 @@ export default function Nav({ scrollY }) {
                   <span
                     key={key}
                     onClick={() => { setPalette(key); dismissHint(); }}
+                    data-umami-event={`Theme Palette ${val.name}`}
                     title={val.name}
                     style={{
                       width: 16, height: 16, borderRadius: "50%", background: val.swatch,
@@ -129,7 +132,6 @@ export default function Nav({ scrollY }) {
                   <p style={{ fontSize: 12, color: t.textSec, lineHeight: 1.5, margin: 0 }}>
                     {hintText}
                   </p>
-                  {/* Arrow pointing up */}
                   <div style={{
                     position: "absolute", top: -6, right: 20, width: 12, height: 12,
                     background: t.surface, border: `1px solid ${t.primary}30`,

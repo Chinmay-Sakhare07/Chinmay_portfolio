@@ -48,17 +48,27 @@ export default function Contact() {
         </div>
 
         <div style={{ display: "flex", justifyContent: "center", gap: 14 }}>
-          <a href={`mailto:${data.email}`} style={{
-            padding: "14px 36px", borderRadius: 12, fontWeight: 600, fontSize: 15,
-            border: "none", textDecoration: "none", cursor: "pointer",
-            background: `linear-gradient(135deg, ${t.gFrom}, ${t.gTo})`, color: "#fff",
-            boxShadow: `0 4px 20px ${t.glow}`,
-          }}>Say Hello</a>
-          <a href={data.linkedin} target="_blank" rel="noreferrer" style={{
-            padding: "14px 36px", borderRadius: 12, fontWeight: 600, fontSize: 15,
-            border: `2px solid ${t.primary}40`, background: "transparent",
-            color: t.primary, textDecoration: "none", cursor: "pointer",
-          }}>LinkedIn</a>
+          <a
+            href={`mailto:${data.email}`}
+            data-umami-event="Contact Say Hello"
+            style={{
+              padding: "14px 36px", borderRadius: 12, fontWeight: 600, fontSize: 15,
+              border: "none", textDecoration: "none", cursor: "pointer",
+              background: `linear-gradient(135deg, ${t.gFrom}, ${t.gTo})`, color: "#fff",
+              boxShadow: `0 4px 20px ${t.glow}`,
+            }}
+          >Say Hello</a>
+          <a
+            href={data.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            data-umami-event="Contact LinkedIn"
+            style={{
+              padding: "14px 36px", borderRadius: 12, fontWeight: 600, fontSize: 15,
+              border: `2px solid ${t.primary}40`, background: "transparent",
+              color: t.primary, textDecoration: "none", cursor: "pointer",
+            }}
+          >LinkedIn</a>
         </div>
       </Glass>
     </Section>

@@ -5,7 +5,6 @@ import data from "../config/data";
 
 export default function Hero({ scrollY, onOpenTerminal }) {
   const { t, mode } = useTheme();
-  // Memoize so the array reference is stable — prevents typing hook from stalling
   const roles = useMemo(() => data.roles, []);
   const typed = useTypingEffect(roles);
 
@@ -41,27 +40,37 @@ export default function Hero({ scrollY, onOpenTerminal }) {
           </p>
 
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <a href={data.resume} download style={{
-              padding: "14px 32px", borderRadius: 12, fontWeight: 600, fontSize: 15,
-              border: "none", textDecoration: "none",
-              background: `linear-gradient(135deg, ${t.gFrom}, ${t.gTo})`, color: "#fff",
-              boxShadow: `0 4px 20px ${t.glow}`, transition: "all 0.3s",
-              display: "inline-flex", alignItems: "center", gap: 8,
-            }}>
+            <a
+              href={data.resume}
+              download
+              data-umami-event="Resume Download"
+              style={{
+                padding: "14px 32px", borderRadius: 12, fontWeight: 600, fontSize: 15,
+                border: "none", textDecoration: "none",
+                background: `linear-gradient(135deg, ${t.gFrom}, ${t.gTo})`, color: "#fff",
+                boxShadow: `0 4px 20px ${t.glow}`, transition: "all 0.3s",
+                display: "inline-flex", alignItems: "center", gap: 8,
+              }}
+            >
               Resume ↓
             </a>
-            <span onClick={() => go("contact")} style={{
-              padding: "14px 32px", borderRadius: 12, fontWeight: 600, fontSize: 15,
-              cursor: "pointer", border: `2px solid ${t.primary}40`,
-              background: "transparent", color: t.primary, transition: "all 0.3s",
-              display: "inline-flex", alignItems: "center", gap: 8,
-            }}>
+            <span
+              onClick={() => go("contact")}
+              data-umami-event="Lets Talk Click"
+              style={{
+                padding: "14px 32px", borderRadius: 12, fontWeight: 600, fontSize: 15,
+                cursor: "pointer", border: `2px solid ${t.primary}40`,
+                background: "transparent", color: t.primary, transition: "all 0.3s",
+                display: "inline-flex", alignItems: "center", gap: 8,
+              }}
+            >
               Let's Talk
             </span>
             {/* Terminal CTA */}
             <span
               onClick={onOpenTerminal}
               title="Open the terminal"
+              data-umami-event="Terminal Open"
               style={{
                 padding: "13px 20px", borderRadius: 12, fontWeight: 600, fontSize: 14,
                 cursor: "pointer",
@@ -80,7 +89,12 @@ export default function Hero({ scrollY, onOpenTerminal }) {
 
           <div style={{ display: "flex", gap: 20, marginTop: 28 }}>
             {[{ l: "GitHub", u: data.github }, { l: "LinkedIn", u: data.linkedin }].map(s => (
-              <a key={s.l} href={s.u} target="_blank" rel="noreferrer"
+              <a
+                key={s.l}
+                href={s.u}
+                target="_blank"
+                rel="noreferrer"
+                data-umami-event={`Hero ${s.l} Click`}
                 style={{ color: t.textMuted, fontSize: 13, textDecoration: "none", fontWeight: 500, transition: "color 0.2s", borderBottom: `1px dashed ${t.textMuted}40` }}
                 onMouseEnter={e => e.target.style.color = t.primary}
                 onMouseLeave={e => e.target.style.color = t.textMuted}
