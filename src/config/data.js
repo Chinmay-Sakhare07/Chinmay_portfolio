@@ -102,7 +102,6 @@ const data = {
   ],
 
   // ─── EDUCATION ───────────────────────────────────────────────────────────────
-  // image: filename in /public (e.g. "/NEU.jpg"). bullets: shown as list items.
   education: [
     {
       degree: "MS in Information Systems",
@@ -119,7 +118,7 @@ const data = {
     },
     {
       degree: "BE in Electronics Engineering",
-      school: "RAIT — University of Mumbai",
+      school: "RAIT - University of Mumbai",
       location: "Mumbai, India",
       period: "Graduated Jun 2021",
       image: "/RAIT.jpg",
