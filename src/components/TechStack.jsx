@@ -34,7 +34,7 @@ const ICONS = {
   "Azure":        "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg",
   "Docker":       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
   "Kubernetes":   "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg",
-  "Fly.io":       null,
+  "Fly.io":       "/icons/fly-io.svg",
   // Tools
   "Git":          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
   "Postman":      "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg",
@@ -46,13 +46,13 @@ const ICONS = {
   "Azure Data Factory": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azure/azure-original.svg",
   "SSMS":               "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg",
   "DBeaver":            "https://upload.wikimedia.org/wikipedia/commons/b/b5/DBeaver_logo.svg",
-  "Navicat":            "https://icon-icons.com/icon/navicat/93851",
-  "ER Studio":          null,
+  "Navicat":            "https://icon-icons.com/downloadimage.php?id=93851&root=1233/PNG/512/&file=navicat_93851.png",
+  "ER Studio":          "/icons/er-studio.png",
   // AI/ML — devicons has PyTorch and OpenCV; YOLOv8 and scikit-learn use SimpleIcons
   "PyTorch":      "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pytorch/pytorch-original.svg",
   "OpenCV":       "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/opencv/opencv-original.svg",
   "scikit-learn": "https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg",
-  "YOLOv8":       null,
+  "YOLOv8":       "https://raw.githubusercontent.com/ultralytics/assets/refs/heads/main/logo/favicon-yolo.png",
 };
 
 export default function TechStack() {
