@@ -9,11 +9,8 @@ import data from "../config/data";
 function StatCard({ stat, delay }) {
   const { t } = useTheme();
   const [ref, visible] = useFadeIn(0.3);
-
-  // strip non-numeric suffix so useCountUp gets a plain number
-  const numericVal = parseFloat(stat.val);
-  const suffix = stat.val.replace(/[\d.]/g, ""); // e.g. "+", "K+", "%"
-  const count = useCountUp(numericVal, 1500, visible);
+  // Pass the raw string — useCountUp handles "3.5+", "50K+", "40%", "6" itself
+  const count = useCountUp(stat.val, 1500, visible);
 
   return (
     <Glass
@@ -30,7 +27,7 @@ function StatCard({ stat, delay }) {
         fontSize: 30, fontWeight: 800, color: t.primary,
         fontFamily: "monospace", letterSpacing: -1,
       }}>
-        {count}{suffix}
+        {count}
       </div>
       <div style={{
         fontSize: 12, color: t.textMuted, marginTop: 4,
@@ -67,7 +64,7 @@ export default function About() {
           </p>
         </Glass>
 
-        {/* Stat cards — 4 cards each span 2 columns */}
+        {/* Stat cards — 4 cards each spanning 2 columns */}
         {data.stats.map((s, i) => (
           <StatCard key={i} stat={s} delay={0.1 + i * 0.1} />
         ))}

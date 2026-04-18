@@ -35,18 +35,19 @@ function spawnConfetti(emojis) {
   for (let i = 0; i < count; i++) {
     const el = document.createElement("div");
     el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    const x = 40 + Math.random() * 20; // 40-60% from left
+    const x = 40 + Math.random() * 20;
+    const rotation = (Math.random() > 0.5 ? 1 : -1) * (180 + Math.random() * 180);
+    const duration = 0.7 + Math.random() * 0.6;
+    const delay = i * 0.05;
     el.style.cssText = `
-      position:fixed;
-      left:${x}vw;
-      top:30vh;
-      font-size:${20 + Math.random() * 14}px;
-      pointer-events:none;
-      z-index:9999;
-      opacity:1;
-      transform:translateY(0) rotate(0deg);
-      transition:none;
-      animation: confettiBurst ${0.7 + Math.random() * 0.6}s ease-out ${i * 0.05}s forwards;
+      position: fixed;
+      left: ${x}vw;
+      top: 30vh;
+      font-size: ${20 + Math.random() * 14}px;
+      pointer-events: none;
+      z-index: 9999;
+      animation: confettiBurst ${duration}s ease-out ${delay}s forwards;
+      --rot: ${rotation}deg;
     `;
     document.body.appendChild(el);
     setTimeout(() => el.remove(), 1600);
@@ -198,7 +199,7 @@ export default function App() {
         @keyframes confettiBurst {
           0%   { opacity:1; transform: translateY(0) rotate(0deg) scale(1); }
           60%  { opacity:0.8; }
-          100% { opacity:0; transform: translateY(-120px) rotate(${Math.random() > 0.5 ? "" : "-"}${180 + Math.random() * 180}deg) scale(0.4); }
+          100% { opacity:0; transform: translateY(-120px) rotate(var(--rot, 240deg)) scale(0.3); }
         }
         * { margin:0; padding:0; box-sizing:border-box; }
         html { scroll-behavior:smooth }
